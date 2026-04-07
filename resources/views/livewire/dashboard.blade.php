@@ -29,28 +29,11 @@
             <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Total Aset</p>
             <p class="text-3xl font-black text-slate-800 mt-2">Rp {{number_format($asset, 0, ',', '.')}} </p>
             
-            <div class="mt-6 flex gap-3">
-                <button 
-                class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-bold shadow-md shodow-indigo-100 transition-all active:scale-95"
-                wire:click="plusAssets"
-                >
-                    + Tambah Aset
-                </button>
-                <button 
-                class="flex-1 bg-white border-2 border-slate-500 hover:border-red-500 py-2 rounded-lg font-bold shadow-md shodow-indigo-100 transition-all active:scale-95"
-                wire:click="minusAssets"
-                >
-                    - Kurang Aset
-                </button>
-            </div>
-        </div>
-        <div class="p-8 bg-slate-50 rounded-2xl border border-slate-300 transition-hover hover:border-indigo-700">
-            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Transaksi</p>
-            <p class="text-3xl font-black text-slate-800 mt-2"> {{$transactionCount}} </p>
+            <button wire:click="minusAssets" class="mt-4 w-full bg-white border-2 border-red-200 text-red-500 py-2 rounded-lg font-bold hover:bg-red-50 transition-all">- Tarik 50rb</button>
         </div>
         <div class="p-8 bg-indigo-600 rounded-2xl border border-indigo-500 text-white shadow-xl shadow-indigo-200">
             <p class="text-indigo-100 text-xs font-bold uppercase tracking-widest text-opacity-70">Progress Belajar</p>
-            <p class="text-3xl font-black mt-2">Bab 4 : Form & Validasi</p>
+            <p class="text-3xl font-black mt-2">Bab 5 : Database Integration</p>
         </div>
     </div>
 
@@ -62,7 +45,7 @@
         <form wire:submit="topUp" class="flex flex-col md:flex-row gap-6 items-end">
             <input 
             type="number"
-            wire:model="nominal"
+            wire:model="amount"
             class="bg-slate-800 border-none rounded-xl px-6 py-4 text-xl font-bold text-indigo-300 focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-700"
             placeholder="Mininal Top Up 10.000"
             >
@@ -76,5 +59,37 @@
                 <span class="text-red-400 text-xs font-bold mt-1  tracking-tight">⚠️ {{$message}} </span>
             @enderror
         </form>
+    </div>
+
+    <div class="mt-12">
+        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">📝 Riwayat Transaksi</h2>
+        <div class="overflow-hidden rounded-2xl border border-slate-200">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-slate-50">
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase">Waktu</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase">Tipe</th>
+                        <th class="px-6 py-4 text-xs font-bold text-slate-400 uppercase">Nominal</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse ($history as $item)
+                        <tr class="hover:bg-slate-50/50">
+                            <td class="px-6 py-4 text-slate-500 text-sm font-medium">{{$item->created_at->diffForHumans()}}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold {{$item->type == 'masuk' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}}"> {{strtoupper($item -> type)}} </span>
+                            </td>
+                            <td class="px-6 py-4 font-bold text-slate-700">
+                                {{ $item->type == 'masuk' ? '+' : '-' }} Rp {{number_format($item->amount, 0, ',', '.')}}
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="px-6 py-10 text-center text-slate-400 italic">Tidak ada transaksi</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
