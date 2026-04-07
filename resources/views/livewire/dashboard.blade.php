@@ -28,6 +28,21 @@
         <div class="p-8 bg-slate-50 rounded-2xl border border-slate-300 transition-hover hover:border-indigo-700">
             <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Total Aset</p>
             <p class="text-3xl font-black text-slate-800 mt-2">Rp {{number_format($asset, 0, ',', '.')}} </p>
+            
+            <div class="mt-6 flex gap-3">
+                <button 
+                class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-bold shadow-md shodow-indigo-100 transition-all active:scale-95"
+                wire:click="plusAssets"
+                >
+                    + Tambah Aset
+                </button>
+                <button 
+                class="flex-1 bg-white border-2 border-slate-500 hover:border-red-500 py-2 rounded-lg font-bold shadow-md shodow-indigo-100 transition-all active:scale-95"
+                wire:click="minusAssets"
+                >
+                    - Kurang Aset
+                </button>
+            </div>
         </div>
         <div class="p-8 bg-slate-50 rounded-2xl border border-slate-300 transition-hover hover:border-indigo-700">
             <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Transaksi</p>
@@ -35,7 +50,7 @@
         </div>
         <div class="p-8 bg-indigo-600 rounded-2xl border border-indigo-500 text-white shadow-xl shadow-indigo-200">
             <p class="text-indigo-100 text-xs font-bold uppercase tracking-widest text-opacity-70">Progress Belajar</p>
-            <p class="text-3xl font-black mt-2">Bab 2 : Data Binding</p>
+            <p class="text-3xl font-black mt-2">Bab 3 : Actions & Method</p>
         </div>
     </div>
 </div>
