@@ -50,7 +50,31 @@
         </div>
         <div class="p-8 bg-indigo-600 rounded-2xl border border-indigo-500 text-white shadow-xl shadow-indigo-200">
             <p class="text-indigo-100 text-xs font-bold uppercase tracking-widest text-opacity-70">Progress Belajar</p>
-            <p class="text-3xl font-black mt-2">Bab 3 : Actions & Method</p>
+            <p class="text-3xl font-black mt-2">Bab 4 : Form & Validasi</p>
         </div>
+    </div>
+
+    <div class="mt-12 p-10 bg-slate-900 rounded-3xl text-white shadow-2xl">
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+            ⚡ Top Up Kustom
+        </h2>
+
+        <form wire:submit="topUp" class="flex flex-col md:flex-row gap-6 items-end">
+            <input 
+            type="number"
+            wire:model="nominal"
+            class="bg-slate-800 border-none rounded-xl px-6 py-4 text-xl font-bold text-indigo-300 focus:ring-2 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-700"
+            placeholder="Mininal Top Up 10.000"
+            >
+            
+            <button
+            wire:loading.attr="disabled"
+            type="submit"
+            class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 px-10 py-4 rounded-xl font-black uppercase tracking-widest shaddow-lg shadow-indigo-900/50 transition-all active:scale-95 disabled:opacity-50"
+            >Top Up</button>
+            @error('nominal')
+                <span class="text-red-400 text-xs font-bold mt-1  tracking-tight">⚠️ {{$message}} </span>
+            @enderror
+        </form>
     </div>
 </div>
