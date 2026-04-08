@@ -33,7 +33,7 @@
         </div>
         <div class="p-8 bg-indigo-600 rounded-2xl border border-indigo-500 text-white shadow-xl shadow-indigo-200">
             <p class="text-indigo-100 text-xs font-bold uppercase tracking-widest text-opacity-70">Progress Belajar</p>
-            <p class="text-3xl font-black mt-2">Bab 5 : Database Integration</p>
+            <p class="text-3xl font-black mt-2">Bab 6 : Loading State</p>
         </div>
     </div>
 
@@ -51,11 +51,16 @@
             >
             
             <button
-            wire:loading.attr="disabled"
             type="submit"
-            class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 px-10 py-4 rounded-xl font-black uppercase tracking-widest shaddow-lg shadow-indigo-900/50 transition-all active:scale-95 disabled:opacity-50"
-            >Top Up</button>
-            @error('nominal')
+            class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 px-9 py-4 rounded-xl font-black uppercase tracking-widest shaddow-lg shadow-indigo-900/50 transition-all active:scale-95 disabled:opacity-50"
+            >
+                <span wire:loading.remove wire:target="topUp">Top Up</span>
+                <span wire:loading wire:target="topUp" class="flex items-center gap-2">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    Memproses...
+                </span>
+            </button>
+            @error('amount')
                 <span class="text-red-400 text-xs font-bold mt-1  tracking-tight">⚠️ {{$message}} </span>
             @enderror
         </form>
@@ -63,6 +68,9 @@
 
     <div class="mt-12">
         <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">📝 Riwayat Transaksi</h2>
+        <div wire:loading wire:target="topUp, minusAssets" class="text-indigo-600 text-xs font-bold flex items-center gap-2 animate-pulse">
+            🔃 Memperbarui Data...
+        </div>
         <div class="overflow-hidden rounded-2xl border border-slate-200">
             <table class="w-full text-left border-collapse">
                 <thead class="bg-slate-50">

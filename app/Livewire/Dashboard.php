@@ -19,6 +19,7 @@ class Dashboard extends Component
         // Menjalankan validasi berdasarkan #[Validate]
         $this->validate();
 
+        sleep(2);
         // SIMPAN KE DATABASE
         Transaction::create([
             'type' => 'masuk',
@@ -31,6 +32,7 @@ class Dashboard extends Component
 
     public function minusAssets()
     {
+        sleep(2);
         if($this->getAssets() >= 50000){
             Transaction::create([
                 'type' => 'keluar',
