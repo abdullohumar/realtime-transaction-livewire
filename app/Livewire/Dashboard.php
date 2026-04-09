@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Transaction;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -14,7 +15,8 @@ class Dashboard extends Component
     #[Validate('required|numeric|min:10000', message: 'Minimal top up adalah 10.000')]
     public $amount;
 
-    
+    #[On('transaction-updated')]
+    public function refreshStats(){}
     public function topUp()
     {
         // Menjalankan validasi berdasarkan #[Validate]
@@ -29,31 +31,16 @@ class Dashboard extends Component
         ]);
 
         $this->reset('amount');
-    }
 
-    public function minusAssets()
-    {
-        sleep(2);
-        if($this->getAssets() >= 50000){
-            Transaction::create([
-                'type' => 'keluar',
-                'amount' => 50000,
-                'description' => 'Penarikan Cepat'
-            ]);
-        }
-    }
-
-    private function getAssets()
-    {
-        $masuk = Transaction::where('type', 'masuk')->sum('amount');
-        $keluar = Transaction::where('type', 'keluar')->sum('amount');
-        return $masuk - $keluar;
+        $this->dispatch('transaction-updated');
     }
 
     public function delete($id)
     {
         $transaction = Transaction::findOrFail($id);
         $transaction->delete();
+
+        $this->dispatch('transaction-updated');
     }
     public function render()
     {
@@ -62,7 +49,6 @@ class Dashboard extends Component
                 $query->where('description', 'like', '%' . $this->search . '%');
             })->latest()->get();
         return view('livewire.dashboard', [
-            'asset' => $this->getAssets(),
             'transactions' => Transaction::count(),
             'history' => $history,
         ]);
